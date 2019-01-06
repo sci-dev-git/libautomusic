@@ -60,9 +60,11 @@ public:
 class MIDINoteEvent : public MIDIEvent
 {
 public:
-  MIDINoteEvent() : MIDIEvent(MIDI_NOTE_EVENT)
+  MIDINoteEvent() : MIDIEvent(MIDI_NOTE_EVENT), m_off(false)
   {}
-  explicit MIDINoteEvent(const PitchNote &note) : MIDIEvent(MIDI_NOTE_EVENT), m_note(note)
+  MIDINoteEvent(const PitchNote &note) : MIDIEvent(MIDI_NOTE_EVENT), m_note(note), m_off(false)
+  {}
+  MIDINoteEvent(const MIDINoteEvent &event) : MIDIEvent(MIDI_NOTE_EVENT), m_note(event.m_note), m_off(event.m_off)
   {}
 
   virtual int serialize(std::ofstream &stream, int channel, class OutputMIDI *output);
@@ -75,9 +77,18 @@ public:
     {
       m_note = note;
     }
+  inline bool off() const
+  {
+    return m_off;
+  }
+  inline void setOff(bool off)
+  {
+    m_off = off;
+  }
 
 public:
   PitchNote m_note;
+  bool m_off;
 };
 
 

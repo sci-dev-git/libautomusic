@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 #include "libautomusic.h"
 #include "output-midi.h"
@@ -220,10 +221,16 @@ int MIDINoteEvent::serialize(std::ofstream &stream, int channel, class OutputMID
   int rc;
   uint8_t data[2] = {m_note.pitch, m_note.velocity};
 
-  if( (rc = output->mf_w_midi_event(stream, m_note.start, MIDI_NOTE_ON, channel, data, 2L)) )
-    return rc;
-  if( (rc = output->mf_w_midi_event(stream, m_note.end, MIDI_NOTE_OFF, channel, data, 2L)) )
-    return rc;
+  if(m_off)
+    {
+      if( (rc = output->mf_w_midi_event(stream, m_note.end, MIDI_NOTE_OFF, channel, data, 2L)) )
+        return rc;
+    }
+  else
+    {
+      if( (rc = output->mf_w_midi_event(stream, m_note.start, MIDI_NOTE_ON, channel, data, 2L)) )
+        return rc;
+    }
 
   return 0;
 }
@@ -291,10 +298,29 @@ int OutputMIDI::writeMIDI(std::ofstream &stream, int format, int division)
   return 0;
 }
 
+static bool event_cmp(const MIDINoteEvent &a, const MIDINoteEvent &b)
+{
+  int time_a = a.off() ? a.note().end : a.note().start;
+  int time_b = b.off() ? b.note().end : b.note().start;
+  return time_a < time_b;
+}
+
 #define MICROSECONDS_PER_MINUTE 60000000
 
 int OutputMIDI::outputTrack(std::ofstream &stream, const std::vector<PitchNote> &sequence, float tempo, int gm_timbre)
 {
+  std::vector<MIDINoteEvent> dst_sequence;
+  for(std::size_t i=0; i < sequence.size(); i++)
+    {
+      MIDINoteEvent note(sequence[i]);
+      note.setOff(false);
+      dst_sequence.push_back(note);
+      note.setOff(true);
+      dst_sequence.push_back(note);
+    }
+
+  std::sort(dst_sequence.begin(), dst_sequence.end(), event_cmp);
+
   MIDITrack *track = appendTrack(new MIDITrack);
 
   int mf_pnq = MICROSECONDS_PER_MINUTE / tempo;
@@ -302,9 +328,9 @@ int OutputMIDI::outputTrack(std::ofstream &stream, const std::vector<PitchNote> 
   track->appendEvent(new MIDIMetaEvent(MIDIMetaEvent::MIDI_META_SEQNAME))->setData("Track 1");
   track->appendEvent(new MIDITempoEvent)->setTempo(mf_pnq);
 
-  for(std::size_t i=0; i < sequence.size(); i++)
+  for(std::size_t i=0; i < dst_sequence.size(); i++)
     {
-      track->appendEvent(new MIDINoteEvent)->setNote(sequence[i]);
+      track->appendEvent(new MIDINoteEvent(dst_sequence[i]));
     }
 
   return 0;
