@@ -17,14 +17,14 @@ libautomusic requires the following libraries to be installed:
 
 * opencv (at least 3.0)
 
-The start the terminal and type:
+Then start the terminal and type:
 
     mkdir build && cd build
     ../configure
     make all
     make install
     
-You will get an executable program in the prefix directory you specificed named 'libautomusic'. The following command is to start our first composition by giving a picture.
+You will get an executable program named 'libautomusic' in the prefix directory you specificed. The following command is to start our first composition by giving a picture.
 
     ./libautomusic your_image_file_here.jpg
     
