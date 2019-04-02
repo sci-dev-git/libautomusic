@@ -26,7 +26,10 @@ class Output
 public:
   Output();
 
-  int outputCompositionChain(const std::string &filename, const std::vector<std::vector<CompositionChainNode *>> &compositionChain, int beats, float tempo);
+  int outputCompositionChain(const std::string &filename,
+                             const std::vector<std::vector<CompositionChainNode *>> &compositionChain,
+                             const std::vector<int> &timbres,
+                             int beats, float tempo);
   void quantifyNoteSequence(std::vector<PitchNote> &dstSequence, float tick_64p);
 
 };

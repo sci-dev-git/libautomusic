@@ -325,7 +325,8 @@ int OutputMIDI::outputTrack(std::ofstream &stream, const std::vector<PitchNote> 
 
   int mf_pnq = MICROSECONDS_PER_MINUTE / tempo;
 
-  track->appendEvent(new MIDIMetaEvent(MIDIMetaEvent::MIDI_META_SEQNAME))->setData("Track 1");
+  track->appendEvent(new MIDIMetaEvent(MIDIMetaEvent::MIDI_META_SEQNAME))->setData("Track");
+  track->appendEvent(new MIDIProgramChangeEvent)->setProg(gm_timbre);
   track->appendEvent(new MIDITempoEvent)->setTempo(mf_pnq);
 
   for(std::size_t i=0; i < dst_sequence.size(); i++)

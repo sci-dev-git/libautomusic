@@ -96,8 +96,12 @@ class MIDIProgramChangeEvent : public MIDIEvent
 {
 public:
   MIDIProgramChangeEvent() : MIDIEvent(MIDI_PROGRAM_CHANGE_EVENT),
-      m_delta_time(0),
-      m_program(0)
+        m_delta_time(0),
+        m_program(0)
+  {}
+  MIDIProgramChangeEvent(uint32_t deltaTime, uint8_t program) : MIDIEvent(MIDI_PROGRAM_CHANGE_EVENT),
+      m_delta_time(deltaTime),
+      m_program(program)
   {}
 
   virtual int serialize(std::ofstream &stream, int channel, class OutputMIDI *output);
@@ -110,11 +114,11 @@ public:
     {
       m_delta_time = delta_time;
     }
-  inline uint8_t note() const
+  inline uint8_t prog() const
     {
       return m_program;
     }
-  inline void setNote(uint8_t prog)
+  inline void setProg(uint8_t prog)
     {
       m_program = prog;
     }

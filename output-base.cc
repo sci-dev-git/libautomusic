@@ -42,7 +42,10 @@ static bool sequence_cmp(const PitchNote &a, const PitchNote &b)
   return a.start < b.start;
 }
 
-int Output::outputCompositionChain(const std::string &filename, const std::vector<std::vector<CompositionChainNode *>> &compositionChain, int beats, float tempo)
+int Output::outputCompositionChain(const std::string &filename,
+                                   const std::vector<std::vector<CompositionChainNode *>> &compositionChain,
+                                   const std::vector<int> &timbres,
+                                   int beats, float tempo)
 {
   using namespace autocomp;
   int rc = -RC_OPENFILE;
@@ -65,7 +68,7 @@ int Output::outputCompositionChain(const std::string &filename, const std::vecto
 
           std::sort(sequence.begin(), sequence.end(), sequence_cmp);
 
-          if( (rc = midi->outputTrack(stream, sequence, tempo, 0)) )
+          if( (rc = midi->outputTrack(stream, sequence, tempo, timbres[track])) )
             return rc;
         }
 
