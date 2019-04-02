@@ -1,10 +1,19 @@
+#include <ctime>
 
 #include "knowledge-model.h"
 #include "theory-harmonics.h"
 #include "theory-structure.h"
 #include "theory-orchestration.h"
 #include "util-randomize.h"
+#include "libautomusic.h"
 #include "parameter-generator.h"
+
+#ifdef ENABLE_IMAGE_COMPOSITION
+# include <cmath>
+# include <opencv2/core.hpp>
+# include <opencv2/highgui.hpp>
+# include <opencv2/imgproc.hpp>
+#endif
 
 namespace autocomp
 {
@@ -17,13 +26,16 @@ ParameterGenerator::ParameterGenerator(KnowledgeModel *knowledgeModel)
       m_scale(-1),
       m_beats(0),
       m_character(-1),
-      m_genre(-1)
+      m_genre(-1),
+      m_generated(false)
 {
 }
 
-int ParameterGenerator::gen(int character, int genre, int beats)
+int ParameterGenerator::gen_inner(int form_template_index, int character, int genre, int beats, int rand_seed, double chord_factor, double timbre_factor)
 {
   using namespace std;
+
+  util::set_rand_seed(rand_seed);
 
   /*
    * Generate candidate chords based on music character.
@@ -72,9 +84,15 @@ int ParameterGenerator::gen(int character, int genre, int beats)
     }
 
   if( penality_list.size() > 10 )
-      m_current_chord_knowledge_entry = util::random_choice(penality_list);
+      if( chord_factor < 0 )
+        m_current_chord_knowledge_entry = util::random_choice(penality_list);
+      else
+        m_current_chord_knowledge_entry = util::factor_choice(penality_list, chord_factor); /* controlled randomization */
   else
-      m_current_chord_knowledge_entry = util::random_choice(m_candidate_chord_knowledge_entries);
+      if( chord_factor < 0 )
+        m_current_chord_knowledge_entry = util::random_choice(m_candidate_chord_knowledge_entries);
+      else
+        m_current_chord_knowledge_entry = util::factor_choice(m_candidate_chord_knowledge_entries, chord_factor);
 
   for(std::size_t i=0; i < m_current_chord_knowledge_entry->m_knowledgeArrayEntries[0]->figure_list.size(); i++)
     {
@@ -91,7 +109,7 @@ int ParameterGenerator::gen(int character, int genre, int beats)
    * Generate development structure.
    * After it acquired a structure, coordinate chords with each forms.
    */
-  if( int err = theory::get_form_template(m_forms, 7) )
+  if( int err = theory::get_form_template(m_forms, form_template_index) )
     return err;
 
   int bar_pos = 0;
@@ -154,7 +172,10 @@ int ParameterGenerator::gen(int character, int genre, int beats)
 
   if( m_candidate_timbre_knowledge_entries.size() )
     {
-      m_current_timbre_knowledge_entry = util::random_choice(m_candidate_timbre_knowledge_entries);
+      if( timbre_factor < 0 )
+        m_current_timbre_knowledge_entry = util::random_choice(m_candidate_timbre_knowledge_entries);
+      else
+        m_current_timbre_knowledge_entry = util::factor_choice(m_candidate_timbre_knowledge_entries, timbre_factor); /* controlled randomization */
     }
   else
     return -1;
@@ -169,7 +190,47 @@ int ParameterGenerator::gen(int character, int genre, int beats)
                                        timbre_banks, figure_banks, figure_classes, false) )
     return err;
 
+  m_generated = true;
   return 0;
+}
+
+int ParameterGenerator::gen(int form_template_index, int character, int genre, int beats)
+{
+  return gen_inner(form_template_index, character, genre, beats, (int)std::clock(), -1, -1);
+}
+
+int ParameterGenerator::gen(const char *imageFilename, int form_template_index, int beats)
+{
+  /*
+   * Generate all the parameters of composition from a pure image.
+   */
+#ifdef ENABLE_IMAGE_COMPOSITION
+  cv::Mat src = cv::imread(imageFilename);
+  cv::cvtColor(src, src, CV_BGR2GRAY); /* grayscale */
+  cv::Moments mts = cv::moments(src);
+  
+  double hu[7];
+  cv::HuMoments(mts, hu);
+  
+  double modsum = hu[0];
+  for (int i=0; i<7; i++)
+    {
+      double val = std::log(std::fabs(hu[i]));
+      if (modsum > val) modsum = val;
+    }
+
+  const double random_gain = 10000;
+  int seed, character;
+  double chord_factor, timbre_factor;
+  seed = std::abs(int(modsum * random_gain));
+  character = int(std::log(std::fabs(hu[0])) / modsum * MAX_CHARACTER_INDEX); /* normalize */
+  chord_factor = std::log(std::fabs(hu[1])) / modsum;
+  timbre_factor = std::log(std::fabs(hu[2])) / modsum;
+  
+  return gen_inner(form_template_index, character, 0, beats, seed, chord_factor, timbre_factor);
+#else
+  return -RC_FAILED;
+#endif
 }
 
 

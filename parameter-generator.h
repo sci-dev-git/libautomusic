@@ -18,7 +18,8 @@ public:
   ParameterGenerator(KnowledgeModel *knowledgeModel);
 
 public:
-  int gen(int character, int genre, int beats);
+  int gen(int form_template_index, int character, int genre, int beats);
+  int gen(const char *imageFilename, int form_template_index, int beats);
 public:
   inline int key() const { return m_key; }
   inline int scale() const { return m_scale; }
@@ -32,8 +33,10 @@ public:
   inline const std::vector<int> &figureClasses() const { return m_figure_classes; }
   inline const std::vector<StructureForm> &forms() const { return m_forms; }
   inline std::vector<FormChainNode *> &chains() { return m_chains; }
+  inline bool generated() { return m_generated; }
 
 private:
+  int gen_inner(int form_template_index, int character, int genre, int beats, int rand_seed, double chord_factor, double timbre_factor);
   int coordinateChordWithFormChain(std::vector<FormChainNode *> &dst,
                                    const std::vector<StructureForm> &forms,
                                    const std::vector<const FigureListEntry *> &src_chords,
@@ -55,6 +58,7 @@ private:
   int m_beats;
   int m_character;
   int m_genre;
+  bool m_generated;
 };
 
 }
