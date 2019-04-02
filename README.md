@@ -1,7 +1,7 @@
 # libautomusic
 
 ------
-![passing](https://camo.githubusercontent.com/948ddd4d1b81323800104755c8ed392d5410f5e2/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6275696c642d70617373696e672d677265656e2e737667) ![unstable](https://camo.githubusercontent.com/31a260091d356cea706b3792d242699cfa2c1f04/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7374617475732d756e737461626c652d6c69676874677265656e2e737667)
+![Build status](https://img.shields.io/badge/libautomusic-blue.svg) ![Build status](https://img.shields.io/badge/build-passing-orange.svg) ![Item status](https://img.shields.io/badge/status-unstable-lightgreen.svg)
 
 This is a C++ library for Algorithmic Musical Composition and automation, which is based on musical theory model and knowledge library system, helping us create multi-track MIDI projects. 
 
