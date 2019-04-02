@@ -18,6 +18,7 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 PKG_CHECK_MODULES(yaml_cpp, yaml-cpp >= 0.6.2)
+PKG_CHECK_MODULES(opencv, opencv >= 3.4.1)
 
 # Checks for header files.
 
@@ -31,9 +32,6 @@ AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [enable DEBUG mode(default
 AS_IF([test "x$enable_debug" = "xyes"], [CXXFLAGS="-g -O0 -DDEBUG -Wall"; CFLAGS="-g -O0 -DNO_DEBUG -Wall"]
     [test "x$enable_debug" = "xno"], [CXXFLAGS="-O2"; CFLAGS="-O2"],
     [])
-
-AC_SUBST(YAML_CPP_CXXFLAGS)
-AC_SUBST(YAML_CPP_LDFLAGS)
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

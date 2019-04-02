@@ -55,7 +55,7 @@ int ModelSoloInstrumental::generate(std::vector<PitchNote> &dst,
   int new_offset = current_form->offset;
 
   std::vector<PitchNote> dst_rhythm_figures;
-  if(int err = transform_rhythm_solo(dst_rhythm_figures, src_figure, current_rhythm_figures, current_rhythm_barlen, dst_barlen, dst_form_id, src_chords) )
+  if(int err = transform_rhythm_solo(dst_rhythm_figures, src_figure, current_rhythm_figures, current_rhythm_barlen, dst_barlen, src_chords) )
     return err;
 
   std::vector<PitchNote> dst_figures;
@@ -72,7 +72,6 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
                           const std::vector<PitchNote> &src_figures,
                           const std::vector<PitchNote> &src_rhythm_figures,
                           int src_rhythm_figures_barlen, int barlen,
-                          StructureForm::FormType form_id,
                           const std::vector<ChordPair> &chord_list,
                           int beats /*= 4*/)
 {
@@ -85,7 +84,7 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
   else
     current_rhythm_figures = src_rhythm_figures;
 
-  dst = src_figures;
+  dst.clear();
 
   for(int i=0; i < barlen; i++)
     {
@@ -100,8 +99,8 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
       int32_t bar_end = (i + 1) * 2 * 2 * 2 * 2 * beats;
       for(std::size_t j=0; j < src_figures.size(); j++)
         {
-          if( bar_start <= dst[j].start && dst[j].start < bar_end )
-            reg_pitch_figure_list.push_back(dst[j]);
+          if( bar_start <= src_figures[j].start && src_figures[j].start < bar_end )
+            reg_pitch_figure_list.push_back(src_figures[j]);
         }
       for(std::size_t j=0; j < current_rhythm_figures.size(); j++)
         {
@@ -130,7 +129,7 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
               else
                 {
                   /*
-                   * Statistics out the quantity of in-chord notes and point out the average pitch.
+                   * Statistics the quantity of in-chord notes and point out the average pitch.
                    * The average pitch will be considered as the center (main) pitch.
                    */
                   std::vector<int> in_chord_index;
@@ -154,15 +153,16 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
                     {
                       int nearest_pitch_no = avg_pitch_no;
                       int nearest_pitch_dis = 129;
-                      for(std::size_t index=0; index < in_chord_index.size(); index++)
+                      for(std::size_t m=0; m < in_chord_index.size(); m++)
                         {
+                          int index = in_chord_index[m];
                           if( ABS(candidate_pitch_figure_list[index].pitch - avg_pitch_no) < nearest_pitch_dis )
                             {
                               nearest_pitch_dis = ABS(candidate_pitch_figure_list[index].pitch - avg_pitch_no);
                               nearest_pitch_no = candidate_pitch_figure_list[index].pitch;
                             }
-                          rhythm_figure.pitch = nearest_pitch_no;
                         }
+                        rhythm_figure.pitch = nearest_pitch_no;
                     }
                   else
                     {
@@ -176,8 +176,8 @@ int ModelSoloInstrumental::transform_rhythm_solo(std::vector<PitchNote> &dst,
                               nearest_pitch_dis = ABS(figure_pitch.pitch - avg_pitch_no);
                               nearest_pitch_no = figure_pitch.pitch;
                             }
-                          rhythm_figure.pitch = nearest_pitch_no;
                         }
+                        rhythm_figure.pitch = nearest_pitch_no;
                     }
                 }
             }

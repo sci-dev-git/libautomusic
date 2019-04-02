@@ -283,8 +283,6 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
-YAML_CPP_CXXFLAGS = @YAML_CPP_CXXFLAGS@
-YAML_CPP_LDFLAGS = @YAML_CPP_LDFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -326,10 +324,13 @@ localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+opencv_CFLAGS = @opencv_CFLAGS@
+opencv_LIBS = @opencv_LIBS@
 pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -360,8 +361,8 @@ libautomusic_SOURCES = \
   main.cc
 
 libautomusic_CFLAGS = 
-libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS)
-libautomusic_LDFLAGS = $(yaml_cpp_LIBS)
+libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS) $(opencv_CFLAGS) -DENABLE_IMAGE_COMPOSITION
+libautomusic_LDFLAGS = $(yaml_cpp_LIBS) $(opencv_LIBS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 

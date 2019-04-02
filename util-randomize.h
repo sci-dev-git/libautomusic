@@ -14,6 +14,12 @@ template <typename T>
       std::size_t _rand_index = (std::size_t)( (src.size()-1) * ((float)std::rand()/RAND_MAX) );
       return src[_rand_index];
     }
+    
+template <typename T>
+  static inline T factor_choice(const std::vector<T> &src, double factor)
+    {
+      return src[(std::size_t)( (src.size()-1) * factor )];
+    }
 
 template <typename T>
   static inline T random_choice(const T *src, std::size_t size)
@@ -25,6 +31,11 @@ template <typename T>
 static inline std::size_t random_range(std::size_t size)
   {
     return (std::size_t)( (size-1) * ((float)std::rand()/RAND_MAX) );
+  }
+
+static inline void set_rand_seed(int seed)
+  {
+    std::srand(seed);
   }
 
   }

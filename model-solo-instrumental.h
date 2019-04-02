@@ -31,7 +31,6 @@ protected:
                             const std::vector<PitchNote> &src_figures,
                             const std::vector<PitchNote> &src_rhythm_figures,
                             int src_rhythm_figures_barlen, int barlen,
-                            StructureForm::FormType form_id,
                             const std::vector<ChordPair> &chord_list,
                             int beats = 4);
   int transform_figure_solo(std::vector<PitchNote> &dst,

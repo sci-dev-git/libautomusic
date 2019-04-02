@@ -148,4 +148,6 @@ private:
 
 }
 
+#define MAX_CHARACTER_INDEX 36
+
 #endif

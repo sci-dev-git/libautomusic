@@ -19,13 +19,14 @@ public:
   CompositionToplevel();
 
   int loadModel(const char *filename);
-  int startup(int character, int genre, int beats);
+  int startup();
 
   inline const std::vector<const KnowledgeArrayEntry *> &melodyRhythmEntries() const { return m_melody_rhythm_array_entries; }
   inline const std::vector<const KnowledgeArrayEntry *> &soloRhythmEntries() const { return m_solo_rhythm_array_entries; }
   inline const std::vector<const std::vector<const FigureListEntry *> *> &trackFigureEntries() const { return m_figure_entries; }
   inline const std::vector<int> &trackFigureKeys() const { return m_figure_keys; }
   inline const std::vector<std::vector<CompositionChainNode *>> &chains() const { return m_compositionChainTracks; }
+  inline ParameterGenerator *generator() { return m_parameterGenerator; }
   float tempo() const;
 
 private:

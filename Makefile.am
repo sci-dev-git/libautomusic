@@ -21,5 +21,5 @@ libautomusic_SOURCES = \
   main.cc
 
 libautomusic_CFLAGS =
-libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS)
-libautomusic_LDFLAGS = $(yaml_cpp_LIBS)
+libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS) $(opencv_CFLAGS) -DENABLE_IMAGE_COMPOSITION
+libautomusic_LDFLAGS = $(yaml_cpp_LIBS) $(opencv_LIBS)

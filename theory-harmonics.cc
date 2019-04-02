@@ -157,7 +157,7 @@ bool chord_is_in_key(const ChordPair &chord, int key, int scale)
 bool pitch_is_in_chord(int pitch, const ChordPair &chord)
 {
   int pitch_offset = util::floor_mod(pitch - chord.root, 12);
-  for(unsigned int i=0; i < SCALE_COMPONENT_PITCH_NUM; i++)
+  for(unsigned int i=0; i < CHORD_COMPONENT_PITCH_NUM; i++)
     {
       if( chord_component_pitch[chord.sign][i] == pitch_offset )
         return true;
@@ -171,8 +171,8 @@ bool pitch_is_in_chord(int pitch, const ChordPair &chord)
  */
 int pitch_get_in_scale(int pitch, int diff_tone, int key, int scale)
 {
-  const int *in_scale_list = chord_component_pitch[scale];
-  int in_scale_count = NATURAL_CHORD_NUM;
+  const int *in_scale_list = scale_component_pitch[scale];
+  int in_scale_count = SCALE_COMPONENT_PITCH_NUM;
 
   int pitch_offset = util::floor_mod(pitch - key, 12);
   int index;
@@ -206,13 +206,13 @@ int pitch_get_in_scale(int pitch, int diff_tone, int key, int scale)
 
   int shifted_index = index + diff_tone;
 
-  while( shifted_index > in_scale_count ) /* shift down if index is out of scale list */
+  while( shifted_index > in_scale_count ) /* shift down if index is higher than current 2 oct */
     {
         index -= in_scale_count / 2;
         shifted_index -= in_scale_count / 2;
         pitch_offset -= 12;
     }
-  while( shifted_index < 0 ) /* shift up when index is out of scale list */
+  while( shifted_index < 0 ) /* shift up when index is lower than current 2 oct */
     {
        index += in_scale_count / 2;
        shifted_index += in_scale_count / 2;
@@ -315,8 +315,7 @@ static int transform_figure_chord_helper(std::vector<PitchNote> &dst,
   else if( dst_chord.root - src_chord.root < -5 )
     offset = 1;
 
-  int note_out_chord_half;
-
+  int note_chord;
   for(std::size_t i=0; i < src_figure_list.size(); i++)
     {
       const PitchNote &figure = src_figure_list[i];
@@ -325,7 +324,8 @@ static int transform_figure_chord_helper(std::vector<PitchNote> &dst,
       int dst_note_index;
       src_note_time = MAX(0, MIN(src_note_time, 10));
 
-      for(unsigned int j=0; j < CHORD_COMPONENT_PITCH_NUM; j++)
+      unsigned int j;
+      for(j=0; j < CHORD_COMPONENT_PITCH_NUM; j++)
         {
           if( src_chord_component[j] == src_note_index )
             {
@@ -333,39 +333,39 @@ static int transform_figure_chord_helper(std::vector<PitchNote> &dst,
               break;
             }
         }
-      if( i == CHORD_COMPONENT_PITCH_NUM )
+      if( j == CHORD_COMPONENT_PITCH_NUM )
         {
           if( 0 && scale_component_pitch[dst_scale][0] == 14 ) /* fixme */
             {
               if( src_note_index < src_chord_component[1] )
-                note_out_chord_half = scale_component_pitch[dst_scale][dst_chord_tone + 1] - scale_component_pitch[dst_scale][dst_chord_tone];
+                note_chord = scale_component_pitch[dst_scale][dst_chord_tone + 1] - scale_component_pitch[dst_scale][dst_chord_tone];
               else if( src_note_index < src_chord_component[2] )
-                note_out_chord_half = scale_component_pitch[dst_scale][dst_chord_tone + 3] - scale_component_pitch[dst_scale][dst_chord_tone];
+                note_chord = scale_component_pitch[dst_scale][dst_chord_tone + 3] - scale_component_pitch[dst_scale][dst_chord_tone];
               else if( src_note_index < src_chord_component[3] )
                 {
                   if( src_note_index == 10 || src_note_index == 11 )
-                    note_out_chord_half = scale_component_pitch[dst_scale][dst_chord_tone + 6] - scale_component_pitch[dst_scale][dst_chord_tone];
+                    note_chord = scale_component_pitch[dst_scale][dst_chord_tone + 6] - scale_component_pitch[dst_scale][dst_chord_tone];
                   else
-                    note_out_chord_half = scale_component_pitch[dst_scale][dst_chord_tone + 5] - scale_component_pitch[dst_scale][dst_chord_tone];
+                    note_chord = scale_component_pitch[dst_scale][dst_chord_tone + 5] - scale_component_pitch[dst_scale][dst_chord_tone];
                 }
             }
           else
             {
-              int min_distence_in_half = 100;
-              int min_distence_in_index = 0;
+              int min_delta_in_half = 100;
+              int min_delta_in_index = 0;
               for(int j=dst_chord_tone + 1; j < SCALE_COMPONENT_PITCH_NUM; j++)
                 {
                   int note24 = scale_component_pitch[dst_scale][j];
-                  int cur_distence_in_half = ABS(note24 - scale_component_pitch[dst_scale][dst_chord_tone] - src_note_index);
-                  if( ABS(ABS(note24 - scale_component_pitch[dst_scale][dst_chord_tone]) - src_note_index) < min_distence_in_half )
+                  int cur_delta_in_half = ABS(note24 - scale_component_pitch[dst_scale][dst_chord_tone] - src_note_index);
+                  if( ABS(ABS(note24 - scale_component_pitch[dst_scale][dst_chord_tone]) - src_note_index) < min_delta_in_half )
                     {
-                      min_distence_in_half = cur_distence_in_half;
-                      min_distence_in_index = j;
+                      min_delta_in_half = cur_delta_in_half;
+                      min_delta_in_index = j - (dst_chord_tone + 1);
                     }
                 }
-              note_out_chord_half = scale_component_pitch[dst_scale][min_distence_in_index] - scale_component_pitch[dst_scale][dst_chord_tone];
+              note_chord = scale_component_pitch[dst_scale][min_delta_in_index] - scale_component_pitch[dst_scale][dst_chord_tone];
             }
-          dst_note_index = note_out_chord_half + dst_chord.root;
+          dst_note_index = note_chord + dst_chord.root;
         }
       dst.push_back(PitchNote(src_note_time * 12 + dst_note_index, figure.velocity, figure.start, figure.end));
     }
@@ -471,6 +471,7 @@ int transform_figure_chord(std::vector<PitchNote> &dst,
               from_beat_in64 = 16 * (i + dst_offset);
               to_beat_in64 = 16 * (i + dst_offset + 1);
             }
+
           std::vector<PitchNote> slice_figure_list;
           for(std::size_t m=0; m < src_figure_list.size(); m++)
             {

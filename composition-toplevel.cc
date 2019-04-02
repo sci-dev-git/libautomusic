@@ -5,6 +5,7 @@
 #include "theory-structure.h"
 #include "theory-orchestration.h"
 #include "util-randomize.h"
+#include "libautomusic.h"
 #include "composition-toplevel.h"
 
 namespace autocomp
@@ -18,18 +19,21 @@ CompositionToplevel::CompositionToplevel()
 {
 }
 
-int CompositionToplevel::startup(int character, int genre, int beats)
+int CompositionToplevel::startup()
 {
   /*
-   * Generator global parameters, i.e. key, scale, beats, chords, development structure and
+   * Get global parameters from generator, i.e. key, scale, beats, chords, development structure and
    * instrument manifest, which is the foundation of the composition.
    */
-  if( int err = m_parameterGenerator->gen(character, genre, beats) )
-    return err;
+  if( !m_parameterGenerator->generated() )
+    return -RC_PARAMETERS_UNGENERATED;
 
   std::size_t num_instrument = m_parameterGenerator->timbreBanks().size();
   const std::vector<int> &figure_banks = m_parameterGenerator->figureBanks();
   const std::vector<int> &figure_classes = m_parameterGenerator->figureClasses();
+  int character = m_parameterGenerator->character();
+  int genre = m_parameterGenerator->genre();
+  int beats = m_parameterGenerator->beats();
 
   std::vector<const KnowledgeEntry *> candidate_knowledge_entries;
   std::vector<const KnowledgeEntry *> secondary_candidate_knowledge_entries;
@@ -108,8 +112,17 @@ int CompositionToplevel::startup(int character, int genre, int beats)
 
           int track;
           const KnowledgeEntry *timbre_knowledge_entry = 0l;
-          if( int err = theory::get_timbre_figures(&timbre_knowledge_entry, &track, candidate_timbre_entries, figure_banks[i], figure_classes[i]) )
-              return err;
+
+          switch( int status = theory::get_timbre_figures(&timbre_knowledge_entry, &track, candidate_timbre_entries, figure_banks[i], figure_classes[i]) ) {
+            case 0:
+              break;
+            case -1: /* There is no enough knowledge entries to get a timbre schedule, so retry searching with the whole library. */
+              if( (status = theory::get_timbre_figures(&timbre_knowledge_entry, &track, m_knowledgeModel->models(), figure_banks[i], figure_classes[i])) )
+                return status;
+              break;
+            default:
+              return status;
+          }
 
           if( m_timbre_knowledge_entries.size() > i )
             m_timbre_knowledge_entries[i] = timbre_knowledge_entry;
@@ -181,7 +194,6 @@ int CompositionToplevel::startup(int character, int genre, int beats)
           /*
            * Invoke a corresponding model that is appropriate to the current instrument track
            */
-          printf("%d begin %d %d\n", track_index, track_figure_bank, track_figure_classes);
           ModelBase *modelInstance = m_modelLibrary->invokeModel(track_figure_bank, track_figure_classes);
           if( int err = modelInstance->generate(compositionNode->pitch, this,
                                                 track_figure_bank, stretched_chords, stretched_figures,
@@ -192,21 +204,6 @@ int CompositionToplevel::startup(int character, int genre, int beats)
           {
             return err;
           }
-
-          static bool wr = false;
-
-          if(!wr && track_figure_bank==8 && track_figure_classes==0)
-            {
-              wr = true;
-              printf("tans/n");
-              FILE *fp = fopen("./figure.txt", "w");
-              fprintf(fp, "[");
-              for(std::size_t i=0; i < compositionNode->pitch.size(); i++)
-                {
-                  fprintf(fp, "[%d,%d,%d,%d]%s", compositionNode->pitch[i].pitch, compositionNode->pitch[i].start, compositionNode->pitch[i].end, compositionNode->pitch[i].velocity, i==compositionNode->pitch.size()-1 ? "]" : ",");
-                }
-              fclose(fp);
-            }
         }
     }
   return 0;

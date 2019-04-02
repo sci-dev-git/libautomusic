@@ -9,5 +9,6 @@
 #define RC_OPENFILE (2)
 #define RC_PARSE_DATABASE (3)
 #define RC_WRITE_FILE (4)
+#define RC_PARAMETERS_UNGENERATED (5)
 
 #endif
