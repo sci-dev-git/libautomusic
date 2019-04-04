@@ -205,9 +205,13 @@ int ParameterGenerator::gen(const char *imageFilename, int form_template_index, 
    * Generate all the parameters of composition from a pure image.
    */
 #ifdef ENABLE_IMAGE_COMPOSITION
-  cv::Mat src = cv::imread(imageFilename);
-  cv::cvtColor(src, src, CV_BGR2GRAY); /* grayscale */
-  cv::Moments mts = cv::moments(src);
+  cv::Mat img_in = cv::imread(imageFilename);
+  if (img_in.empty())
+    {
+      return -RC_OPENFILE;
+    }
+  cv::cvtColor(img_in, img_in, CV_BGR2GRAY); /* grayscale */
+  cv::Moments mts = cv::moments(img_in);
   
   double hu[7];
   cv::HuMoments(mts, hu);
