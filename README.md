@@ -1,11 +1,13 @@
-# libautomusic
+# libautomusic (Algorithmic Musical Composition Library)
 
 ------
 ![Build status](https://img.shields.io/badge/libautomusic-blue.svg) ![Build status](https://img.shields.io/badge/build-passing-orange.svg) ![Item status](https://img.shields.io/badge/status-unstable-lightgreen.svg)
 
-This is a C++ library for Algorithmic Musical Composition and automation, which is based on musical theory model and knowledge library system, helping us create multi-track MIDI projects. 
+`libautomusic` allows you to create a unique music based on the given `picture` (all styles are acceptable), without any manual configurations or interventions.
 
-`libautomusic` allows you to create a unique music based on a given `picture` (all styles are acceptable), without any manual configurations or interventions.
+The composition algorithmic is based on music-theory model and knowledge-library-system, enabling us to create complicated and multi-track MIDI projects.
+
+The paper describing the algorithm in details is available on https://www.cnblogs.com/sci-dev/p/10261380.html.
 
 # Quick start
 
@@ -28,7 +30,7 @@ For the futher polishing, you may want to import this file to other MIDI edition
 
 # Third-party libraries
 
-libautomusic requires the following libraries to be installed (if all the corresponding fetures are enabled):
+libautomusic requires the following libraries to be installed (if all the corresponding features are enabled):
 
 * yaml-cpp (at least 0.6.2)
 
