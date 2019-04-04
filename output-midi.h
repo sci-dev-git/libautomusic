@@ -60,35 +60,26 @@ public:
 class MIDINoteEvent : public MIDIEvent
 {
 public:
-  MIDINoteEvent() : MIDIEvent(MIDI_NOTE_EVENT), m_off(false)
+  MIDINoteEvent() : MIDIEvent(MIDI_NOTE_EVENT)
   {}
-  MIDINoteEvent(const PitchNote &note) : MIDIEvent(MIDI_NOTE_EVENT), m_note(note), m_off(false)
+  MIDINoteEvent(const OutputBase::Event &note) : MIDIEvent(MIDI_NOTE_EVENT), m_note(note)
   {}
-  MIDINoteEvent(const MIDINoteEvent &event) : MIDIEvent(MIDI_NOTE_EVENT), m_note(event.m_note), m_off(event.m_off)
+  MIDINoteEvent(const MIDINoteEvent &event) : MIDIEvent(MIDI_NOTE_EVENT), m_note(event.m_note)
   {}
 
   virtual int serialize(std::ofstream &stream, int channel, class OutputMIDI *output);
 
-  inline PitchNote note() const
+  inline const OutputBase::Event &note() const
     {
       return m_note;
     }
-  inline void setNote(const PitchNote &note)
+  inline void setNote(const OutputBase::Event &note)
     {
       m_note = note;
     }
-  inline bool off() const
-  {
-    return m_off;
-  }
-  inline void setOff(bool off)
-  {
-    m_off = off;
-  }
 
 public:
-  PitchNote m_note;
-  bool m_off;
+  OutputBase::Event m_note;
 };
 
 
@@ -222,8 +213,8 @@ public:
   
 public:
   virtual float tick_64p() const { return 7.5; }
-  virtual int outputPrepare(std::ofstream &stream) { return 0; }
-  virtual int outputTrack(std::ofstream &stream, const std::vector<PitchNote> &sequence, float tempo, int gm_timbre);
+  virtual int outputPrepare(std::ofstream &stream, float) { return 0; }
+  virtual int outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence, float tempo);
   virtual int outputFinal(std::ofstream &stream);
 
 public:

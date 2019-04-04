@@ -57,7 +57,7 @@ static int tst_composition_toplevel()
     return err;
   if( int err = g_composition->startup() )
     return err;
-  if(int err = output->outputCompositionChain("./comp.mid", g_composition->chains(), g_composition->generator()->timbreBanks(), beats, g_composition->tempo()))
+  if(int err = output->outputCompositionChain("./comp.mid", 0, g_composition->chains(), g_composition->generator()->timbreBanks(), beats, g_composition->tempo()))
     return err;
 
   return 0;
@@ -69,12 +69,14 @@ static int tst_image_composition(const char *filename)
   Output *output = new Output;
   int beats = 3;
 
-  if( int err = g_composition->generator()->gen(filename, 0, beats) )
+  if( int err = g_composition->generator()->gen(filename, 2, beats) )
     return err;
   if( int err = g_composition->startup() )
     return err;
-  if(int err = output->outputCompositionChain("./comp.mid", g_composition->chains(), g_composition->generator()->timbreBanks(), beats, g_composition->tempo()))
+  if(int err = output->outputCompositionChain("./comp.mid", 0, g_composition->chains(), g_composition->generator()->timbreBanks(), beats, g_composition->tempo()))
     return err;
+  if(int err = output->outputCompositionChain("./comp.pcm", 1, g_composition->chains(), g_composition->generator()->timbreBanks(), beats, g_composition->tempo()))
+      return err;
 
   return 0;
 }

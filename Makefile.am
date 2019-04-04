@@ -17,6 +17,7 @@ libautomusic_SOURCES = \
   model-percussion.cc \
   output-base.cc \
   output-midi.cc \
+  output-pcm-audio.cc \
   composition-toplevel.cc \
   main.cc
 
