@@ -7,30 +7,35 @@ This is a C++ library for Algorithmic Musical Composition and automation, which 
 
 `libautomusic` allows you to create a unique music based on a given `picture` (all styles are acceptable), without any manual configurations or interventions.
 
-# Just few steps to begin with
+# Quick start
 
-In Windows you should prepare a MinGW or CygWin environment at first. In unix-like system these tings are all natrual.
+In Windows you should prepare a MinGW or CygWin environment at first. In unix-like system these facilities are all natrual for you.
 
-libautomusic requires the following libraries to be installed:
-
-* yaml-cpp (at least 0.6.2)
-
-* opencv (at least 3.0)
-
-Then start the terminal and type:
+Start a terminal:
 
     mkdir build && cd build
     ../configure
     make all
     make install
-    
-You will get an executable program named 'libautomusic' in the prefix directory you specificed. The following command is to start our first composition by giving a picture.
+
+If things go right you will get a program named 'libautomusic' in your prefix directory. The following command is to start our first composition process by merely giving a picture.
 
     ./libautomusic your_image_file_here.jpg
-    
+
 And you will get a MIDI file in the same path of the executable, which stores all the notes and voices of your new music.
 
-You can import this file into other MIDI editors for the futher polishing.
+For the futher polishing, you may want to import this file to other MIDI edition softwares.
+
+# Third-party libraries
+
+libautomusic requires the following libraries to be installed (if all the corresponding fetures are enabled):
+
+* yaml-cpp (at least 0.6.2)
+
+* opencv (at least 3.0) (optional)
+
+* libmp3lame (at least 3.1) (optional)
+
 
 # Maintain
 We're in maintenance of this project though currently the item is still in a very alpha stage. A bootstrap script is provided to construct building system.
