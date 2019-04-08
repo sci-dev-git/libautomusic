@@ -1,4 +1,6 @@
 
+#include <cassert>
+
 #include "util-randomize.h"
 #include "knowledge-model.h"
 #include "theory-orchestration.h"
@@ -307,6 +309,128 @@ int get_timbre_figures(const KnowledgeEntry **ppKnowledgeEntry,
   return -1;
 }
 
+#define MAX_VELOCITY 127
+
+static const float randomVelocityFactor = 0.2;
+static const float randomVelocityThreshold = 0.3;
+static const float soloVelocityProportion = 1.2;
+
+/**
+ * @brief Process the velocity of each notes for all the different instruments.
+ * @param compositionChainTrack Target chains to be processed.
+ * @param figureBanks Instrument figure banks.
+ * @param figureClasses Figure classes.
+ * @param velocityFactorModu Optional, Modulation coefficient of Randomization factor for velocity, ranged from [0, 1].
+ * @param soloProportionModu Optional, Modulation coefficient of Proportion: velocity of solo track / chord track.
+ */
+int processVelocity(std::vector<std::vector<CompositionChainNode *>> &compositionChainTrack, const std::vector<int> &figureBanks, const std::vector<int> &figureClasses, float velocityFactorModu, float soloProportionModu)
+{
+  velocityFactorModu *= randomVelocityFactor;
+  soloProportionModu *= soloVelocityProportion;
+  /*
+   * Randomize the velocity of each note when all the notes has the same velocity.
+   */
+  for(std::size_t trackNum=0; trackNum < compositionChainTrack.size(); trackNum++)
+    {
+      if (figureBanks[trackNum] != FIGURE_BANK_DRUMS)
+        {
+          int dullVelocity = 0, count = 0;
+          for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+            {
+              if (compositionChainTrack[trackNum][form]->pitch.size())
+                {
+                  uint8_t velocity = compositionChainTrack[trackNum][form]->pitch[0].velocity;
+                  for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+                    {
+                      if (compositionChainTrack[trackNum][form]->pitch[j].velocity != velocity)
+                        {
+                          ++dullVelocity;
+                        }
+                      ++count;
+                    }
+                }
+            }
+          if (count && (float)dullVelocity / count < randomVelocityThreshold)
+            {
+              int8_t benchmark = MAX_VELOCITY * velocityFactorModu;
+              for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+                {
+                  for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+                    {
+                      int8_t lowmark = (int8_t)compositionChainTrack[trackNum][form]->pitch[j].velocity - benchmark;
+                      uint8_t highmark = compositionChainTrack[trackNum][form]->pitch[j].velocity + benchmark;
+
+                      highmark = highmark > MAX_VELOCITY ? MAX_VELOCITY : highmark; /* clip */
+                      lowmark = lowmark < 0 ? 0 : lowmark;
+
+                      compositionChainTrack[trackNum][form]->pitch[j].velocity = util::random_range<uint8_t>(lowmark, highmark);
+                    }
+                }
+            }
+        }
+    }
+
+  /*
+   * Normalization. Adopt the velocity of current track to benchmark velocity.
+   */
+  int avreageVelocity = 0, sumCount = 0;
+  for(std::size_t trackNum=0; trackNum < compositionChainTrack.size(); trackNum++)
+      {
+        for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+          {
+            for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+              {
+                avreageVelocity += compositionChainTrack[trackNum][form]->pitch[j].velocity;
+                ++sumCount;
+              }
+          }
+      }
+  avreageVelocity /= sumCount;
+  assert(avreageVelocity <= 127);
+
+  int chordBenchmark = avreageVelocity;
+  int soloBenchmark = int(avreageVelocity * soloProportionModu);
+  if (soloBenchmark > MAX_VELOCITY) soloBenchmark = MAX_VELOCITY;
+
+  for(std::size_t trackNum=0; trackNum < compositionChainTrack.size(); trackNum++)
+    {
+      /* Calculate the DC (Direct Current) offset of velocity */
+      int DC_offset = 0, DC_count = 0;
+      for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+        {
+          for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+            {
+              DC_offset += compositionChainTrack[trackNum][form]->pitch[j].velocity;
+              ++DC_count;
+            }
+        }
+      DC_offset /= DC_count;
+
+      /* Apply new offset to the original velocity */
+      for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+        {
+          for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+            {
+              uint8_t vel;
+              switch(figureClasses[trackNum])
+                {
+                  case FIGURE_CLASS_SOLO:
+                    vel = (uint8_t)soloBenchmark + (compositionChainTrack[trackNum][form]->pitch[j].velocity - DC_offset);
+                    break;
+                  case FIGURE_CLASS_CHORD:
+                  default:
+                    vel = (uint8_t)chordBenchmark + (compositionChainTrack[trackNum][form]->pitch[j].velocity - DC_offset);
+                }
+
+              vel = (vel > MAX_VELOCITY ? MAX_VELOCITY : vel); /* clip */
+              vel = (vel < 0 ? DC_offset/2 : vel);
+
+              compositionChainTrack[trackNum][form]->pitch[j].velocity = vel;
+            }
+        }
+    }
+  return 0;
+}
 
   }
 }

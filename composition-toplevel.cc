@@ -206,6 +206,12 @@ int CompositionToplevel::startup()
           }
         }
     }
+
+  /*
+   * Post processing of composition chain.
+   */
+  if( int err = theory::processVelocity(m_compositionChainTracks, generator()->figureBanks(), generator()->figureClasses()) )
+    return err;
   return 0;
 }
 

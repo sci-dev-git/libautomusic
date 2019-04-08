@@ -53,6 +53,8 @@ int get_timbre_figures(const KnowledgeEntry ** ppKnowledgeEntry,
 
 bool is_timbre_bank_related(int figure_bank, int dst_figure_bank);
 
+int processVelocity(std::vector<std::vector<CompositionChainNode *>> &compositionChainTrack, const std::vector<int> &figureBanks, const std::vector<int> &figureClasses, float velocityFactor = 1.0, float soloProportion = 1.0);
+
 }
 }
 
