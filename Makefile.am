@@ -5,6 +5,7 @@ INCLUDES = -I$(top_builddir)/include      \
 bin_PROGRAMS = libautomusic
 
 libautomusic_SOURCES = \
+  util-randomize.cc \
   knowledge-model.cc \
   theory-harmonics.cc \
   theory-structure.cc \
