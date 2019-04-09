@@ -776,6 +776,7 @@ enable_dependency_tracking
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+enable_image_composition
 enable_debug
 '
       ac_precious_vars='build_alias
@@ -1439,6 +1440,8 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-image-composition
+                          Enable image composition.(default=no)
   --enable-debug          enable DEBUG mode(default=no)
 
 Optional Packages:
@@ -12015,6 +12018,37 @@ CC=$lt_save_CC
 ac_config_headers="$ac_config_headers config.h"
 
 
+# Package Options
+# ---------------
+
+# Check whether --enable-image_composition was given.
+if test "${enable_image_composition+set}" = set; then :
+  enableval=$enable_image_composition;
+else
+  enable_image_composition="yes"
+fi
+
+if test "x$enable_image_composition" = "xyes"; then :
+
+$as_echo "#define ENABLE_IMAGE_COMPOSITION /**/" >>confdefs.h
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Image composition enabled" >&5
+$as_echo "Image composition enabled" >&6; }
+fi
+
+# Check whether --enable-debug was given.
+if test "${enable_debug+set}" = set; then :
+  enableval=$enable_debug;
+else
+  enable_debug="no"
+fi
+
+if test "x$enable_debug" = "xyes"; then :
+  CXXFLAGS="-g -O0 -DDEBUG -Wall"; CFLAGS="-g -O0 -DNO_DEBUG -Wall"
+elif test "x$enable_debug" = "xno"; then :
+  CXXFLAGS="-O2"; CFLAGS="-O2"
+fi
+
 # Checks for programs.
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16446,6 +16480,8 @@ fi
 
 # Checks for libraries.
 
+# yaml-cpp
+
 
 
 
@@ -16656,6 +16692,11 @@ else
 $as_echo "yes" >&6; }
 
 fi
+CPPFLAGS="$CPPFLAGS $yaml_cpp_CFLAGS"
+LDFLAGS="$LDFLAGS $yaml_cpp_LIBS"
+
+# opencv
+if test "x$enable_image_composition" = "xyes"; then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for opencv" >&5
@@ -16747,6 +16788,10 @@ else
 $as_echo "yes" >&6; }
 
 fi
+    CFLAGS="$CFLAGS $opencv_CFLAGS"
+    CPPFLAGS="$CPPFLAGS $opencv_CFLAGS"
+    LDFLAGS="$LDFLAGS $opencv_LIBS"
+fi
 
 # Checks for header files.
 
@@ -16754,19 +16799,6 @@ fi
 
 # Checks for library functions.
 
-# Check whether --enable-debug was given.
-if test "${enable_debug+set}" = set; then :
-  enableval=$enable_debug;
-else
-  enable_debug=no
-fi
-
-if test "x$enable_debug" = "xyes"; then :
-  CXXFLAGS="-g -O0 -DDEBUG -Wall"; CFLAGS="-g -O0 -DNO_DEBUG -Wall"
-    test "x$enable_debug" = "xno"
-elif CXXFLAGS="-O2"; CFLAGS="-O2"; then :
-
-fi
 
 ac_config_files="$ac_config_files Makefile"
 

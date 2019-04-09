@@ -11,5 +11,6 @@
 #define RC_WRITE_FILE (4)
 #define RC_PARAMETERS_UNGENERATED (5)
 #define RC_LOADING_SAMPLES (6)
+#define RC_UNSUPPORTED (7)
 
 #endif

@@ -7,6 +7,7 @@
 #include "util-randomize.h"
 #include "libautomusic.h"
 #include "parameter-generator.h"
+#include "config.h"
 
 #ifdef ENABLE_IMAGE_COMPOSITION
 # include <cmath>
@@ -233,7 +234,7 @@ int ParameterGenerator::gen(const char *imageFilename, int form_template_index, 
   
   return gen_inner(form_template_index, character, 0, beats, seed, chord_factor, timbre_factor);
 #else
-  return -RC_FAILED;
+  return -RC_UNSUPPORTED;
 #endif
 }
 

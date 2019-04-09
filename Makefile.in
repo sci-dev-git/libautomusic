@@ -107,31 +107,21 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_libautomusic_OBJECTS = libautomusic-util-randomize.$(OBJEXT) \
-	libautomusic-knowledge-model.$(OBJEXT) \
-	libautomusic-theory-harmonics.$(OBJEXT) \
-	libautomusic-theory-structure.$(OBJEXT) \
-	libautomusic-theory-orchestration.$(OBJEXT) \
-	libautomusic-parameter-generator.$(OBJEXT) \
-	libautomusic-model-base.$(OBJEXT) \
-	libautomusic-model-chord.$(OBJEXT) \
-	libautomusic-model-solo-instrumental.$(OBJEXT) \
-	libautomusic-model-solo-melody.$(OBJEXT) \
-	libautomusic-model-percussion.$(OBJEXT) \
-	libautomusic-output-base.$(OBJEXT) \
-	libautomusic-output-midi.$(OBJEXT) \
-	libautomusic-output-pcm-audio.$(OBJEXT) \
-	libautomusic-composition-toplevel.$(OBJEXT) \
-	libautomusic-main.$(OBJEXT)
+am_libautomusic_OBJECTS = util-randomize.$(OBJEXT) \
+	knowledge-model.$(OBJEXT) theory-harmonics.$(OBJEXT) \
+	theory-structure.$(OBJEXT) theory-orchestration.$(OBJEXT) \
+	parameter-generator.$(OBJEXT) model-base.$(OBJEXT) \
+	model-chord.$(OBJEXT) model-solo-instrumental.$(OBJEXT) \
+	model-solo-melody.$(OBJEXT) model-percussion.$(OBJEXT) \
+	output-base.$(OBJEXT) output-midi.$(OBJEXT) \
+	output-pcm-audio.$(OBJEXT) composition-toplevel.$(OBJEXT) \
+	main.$(OBJEXT)
 libautomusic_OBJECTS = $(am_libautomusic_OBJECTS)
 libautomusic_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libautomusic_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(libautomusic_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -364,9 +354,6 @@ libautomusic_SOURCES = \
   composition-toplevel.cc \
   main.cc
 
-libautomusic_CFLAGS = 
-libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS) $(opencv_CFLAGS) -DENABLE_IMAGE_COMPOSITION
-libautomusic_LDFLAGS = $(yaml_cpp_LIBS) $(opencv_LIBS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -472,7 +459,7 @@ clean-binPROGRAMS:
 
 libautomusic$(EXEEXT): $(libautomusic_OBJECTS) $(libautomusic_DEPENDENCIES) $(EXTRA_libautomusic_DEPENDENCIES) 
 	@rm -f libautomusic$(EXEEXT)
-	$(AM_V_CXXLD)$(libautomusic_LINK) $(libautomusic_OBJECTS) $(libautomusic_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(libautomusic_OBJECTS) $(libautomusic_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -480,22 +467,22 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-composition-toplevel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-knowledge-model.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-model-base.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-model-chord.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-model-percussion.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-model-solo-instrumental.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-model-solo-melody.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-output-base.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-output-midi.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-output-pcm-audio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-parameter-generator.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-theory-harmonics.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-theory-orchestration.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-theory-structure.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libautomusic-util-randomize.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/composition-toplevel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/knowledge-model.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model-base.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model-chord.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model-percussion.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model-solo-instrumental.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model-solo-melody.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-base.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-midi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-pcm-audio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parameter-generator.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theory-harmonics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theory-orchestration.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theory-structure.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util-randomize.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -517,230 +504,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
-
-libautomusic-util-randomize.o: util-randomize.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-util-randomize.o -MD -MP -MF $(DEPDIR)/libautomusic-util-randomize.Tpo -c -o libautomusic-util-randomize.o `test -f 'util-randomize.cc' || echo '$(srcdir)/'`util-randomize.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-util-randomize.Tpo $(DEPDIR)/libautomusic-util-randomize.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='util-randomize.cc' object='libautomusic-util-randomize.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-util-randomize.o `test -f 'util-randomize.cc' || echo '$(srcdir)/'`util-randomize.cc
-
-libautomusic-util-randomize.obj: util-randomize.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-util-randomize.obj -MD -MP -MF $(DEPDIR)/libautomusic-util-randomize.Tpo -c -o libautomusic-util-randomize.obj `if test -f 'util-randomize.cc'; then $(CYGPATH_W) 'util-randomize.cc'; else $(CYGPATH_W) '$(srcdir)/util-randomize.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-util-randomize.Tpo $(DEPDIR)/libautomusic-util-randomize.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='util-randomize.cc' object='libautomusic-util-randomize.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-util-randomize.obj `if test -f 'util-randomize.cc'; then $(CYGPATH_W) 'util-randomize.cc'; else $(CYGPATH_W) '$(srcdir)/util-randomize.cc'; fi`
-
-libautomusic-knowledge-model.o: knowledge-model.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-knowledge-model.o -MD -MP -MF $(DEPDIR)/libautomusic-knowledge-model.Tpo -c -o libautomusic-knowledge-model.o `test -f 'knowledge-model.cc' || echo '$(srcdir)/'`knowledge-model.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-knowledge-model.Tpo $(DEPDIR)/libautomusic-knowledge-model.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='knowledge-model.cc' object='libautomusic-knowledge-model.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-knowledge-model.o `test -f 'knowledge-model.cc' || echo '$(srcdir)/'`knowledge-model.cc
-
-libautomusic-knowledge-model.obj: knowledge-model.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-knowledge-model.obj -MD -MP -MF $(DEPDIR)/libautomusic-knowledge-model.Tpo -c -o libautomusic-knowledge-model.obj `if test -f 'knowledge-model.cc'; then $(CYGPATH_W) 'knowledge-model.cc'; else $(CYGPATH_W) '$(srcdir)/knowledge-model.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-knowledge-model.Tpo $(DEPDIR)/libautomusic-knowledge-model.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='knowledge-model.cc' object='libautomusic-knowledge-model.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-knowledge-model.obj `if test -f 'knowledge-model.cc'; then $(CYGPATH_W) 'knowledge-model.cc'; else $(CYGPATH_W) '$(srcdir)/knowledge-model.cc'; fi`
-
-libautomusic-theory-harmonics.o: theory-harmonics.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-harmonics.o -MD -MP -MF $(DEPDIR)/libautomusic-theory-harmonics.Tpo -c -o libautomusic-theory-harmonics.o `test -f 'theory-harmonics.cc' || echo '$(srcdir)/'`theory-harmonics.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-harmonics.Tpo $(DEPDIR)/libautomusic-theory-harmonics.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-harmonics.cc' object='libautomusic-theory-harmonics.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-harmonics.o `test -f 'theory-harmonics.cc' || echo '$(srcdir)/'`theory-harmonics.cc
-
-libautomusic-theory-harmonics.obj: theory-harmonics.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-harmonics.obj -MD -MP -MF $(DEPDIR)/libautomusic-theory-harmonics.Tpo -c -o libautomusic-theory-harmonics.obj `if test -f 'theory-harmonics.cc'; then $(CYGPATH_W) 'theory-harmonics.cc'; else $(CYGPATH_W) '$(srcdir)/theory-harmonics.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-harmonics.Tpo $(DEPDIR)/libautomusic-theory-harmonics.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-harmonics.cc' object='libautomusic-theory-harmonics.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-harmonics.obj `if test -f 'theory-harmonics.cc'; then $(CYGPATH_W) 'theory-harmonics.cc'; else $(CYGPATH_W) '$(srcdir)/theory-harmonics.cc'; fi`
-
-libautomusic-theory-structure.o: theory-structure.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-structure.o -MD -MP -MF $(DEPDIR)/libautomusic-theory-structure.Tpo -c -o libautomusic-theory-structure.o `test -f 'theory-structure.cc' || echo '$(srcdir)/'`theory-structure.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-structure.Tpo $(DEPDIR)/libautomusic-theory-structure.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-structure.cc' object='libautomusic-theory-structure.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-structure.o `test -f 'theory-structure.cc' || echo '$(srcdir)/'`theory-structure.cc
-
-libautomusic-theory-structure.obj: theory-structure.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-structure.obj -MD -MP -MF $(DEPDIR)/libautomusic-theory-structure.Tpo -c -o libautomusic-theory-structure.obj `if test -f 'theory-structure.cc'; then $(CYGPATH_W) 'theory-structure.cc'; else $(CYGPATH_W) '$(srcdir)/theory-structure.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-structure.Tpo $(DEPDIR)/libautomusic-theory-structure.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-structure.cc' object='libautomusic-theory-structure.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-structure.obj `if test -f 'theory-structure.cc'; then $(CYGPATH_W) 'theory-structure.cc'; else $(CYGPATH_W) '$(srcdir)/theory-structure.cc'; fi`
-
-libautomusic-theory-orchestration.o: theory-orchestration.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-orchestration.o -MD -MP -MF $(DEPDIR)/libautomusic-theory-orchestration.Tpo -c -o libautomusic-theory-orchestration.o `test -f 'theory-orchestration.cc' || echo '$(srcdir)/'`theory-orchestration.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-orchestration.Tpo $(DEPDIR)/libautomusic-theory-orchestration.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-orchestration.cc' object='libautomusic-theory-orchestration.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-orchestration.o `test -f 'theory-orchestration.cc' || echo '$(srcdir)/'`theory-orchestration.cc
-
-libautomusic-theory-orchestration.obj: theory-orchestration.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-theory-orchestration.obj -MD -MP -MF $(DEPDIR)/libautomusic-theory-orchestration.Tpo -c -o libautomusic-theory-orchestration.obj `if test -f 'theory-orchestration.cc'; then $(CYGPATH_W) 'theory-orchestration.cc'; else $(CYGPATH_W) '$(srcdir)/theory-orchestration.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-theory-orchestration.Tpo $(DEPDIR)/libautomusic-theory-orchestration.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='theory-orchestration.cc' object='libautomusic-theory-orchestration.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-theory-orchestration.obj `if test -f 'theory-orchestration.cc'; then $(CYGPATH_W) 'theory-orchestration.cc'; else $(CYGPATH_W) '$(srcdir)/theory-orchestration.cc'; fi`
-
-libautomusic-parameter-generator.o: parameter-generator.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-parameter-generator.o -MD -MP -MF $(DEPDIR)/libautomusic-parameter-generator.Tpo -c -o libautomusic-parameter-generator.o `test -f 'parameter-generator.cc' || echo '$(srcdir)/'`parameter-generator.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-parameter-generator.Tpo $(DEPDIR)/libautomusic-parameter-generator.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parameter-generator.cc' object='libautomusic-parameter-generator.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-parameter-generator.o `test -f 'parameter-generator.cc' || echo '$(srcdir)/'`parameter-generator.cc
-
-libautomusic-parameter-generator.obj: parameter-generator.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-parameter-generator.obj -MD -MP -MF $(DEPDIR)/libautomusic-parameter-generator.Tpo -c -o libautomusic-parameter-generator.obj `if test -f 'parameter-generator.cc'; then $(CYGPATH_W) 'parameter-generator.cc'; else $(CYGPATH_W) '$(srcdir)/parameter-generator.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-parameter-generator.Tpo $(DEPDIR)/libautomusic-parameter-generator.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parameter-generator.cc' object='libautomusic-parameter-generator.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-parameter-generator.obj `if test -f 'parameter-generator.cc'; then $(CYGPATH_W) 'parameter-generator.cc'; else $(CYGPATH_W) '$(srcdir)/parameter-generator.cc'; fi`
-
-libautomusic-model-base.o: model-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-base.o -MD -MP -MF $(DEPDIR)/libautomusic-model-base.Tpo -c -o libautomusic-model-base.o `test -f 'model-base.cc' || echo '$(srcdir)/'`model-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-base.Tpo $(DEPDIR)/libautomusic-model-base.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-base.cc' object='libautomusic-model-base.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-base.o `test -f 'model-base.cc' || echo '$(srcdir)/'`model-base.cc
-
-libautomusic-model-base.obj: model-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-base.obj -MD -MP -MF $(DEPDIR)/libautomusic-model-base.Tpo -c -o libautomusic-model-base.obj `if test -f 'model-base.cc'; then $(CYGPATH_W) 'model-base.cc'; else $(CYGPATH_W) '$(srcdir)/model-base.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-base.Tpo $(DEPDIR)/libautomusic-model-base.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-base.cc' object='libautomusic-model-base.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-base.obj `if test -f 'model-base.cc'; then $(CYGPATH_W) 'model-base.cc'; else $(CYGPATH_W) '$(srcdir)/model-base.cc'; fi`
-
-libautomusic-model-chord.o: model-chord.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-chord.o -MD -MP -MF $(DEPDIR)/libautomusic-model-chord.Tpo -c -o libautomusic-model-chord.o `test -f 'model-chord.cc' || echo '$(srcdir)/'`model-chord.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-chord.Tpo $(DEPDIR)/libautomusic-model-chord.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-chord.cc' object='libautomusic-model-chord.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-chord.o `test -f 'model-chord.cc' || echo '$(srcdir)/'`model-chord.cc
-
-libautomusic-model-chord.obj: model-chord.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-chord.obj -MD -MP -MF $(DEPDIR)/libautomusic-model-chord.Tpo -c -o libautomusic-model-chord.obj `if test -f 'model-chord.cc'; then $(CYGPATH_W) 'model-chord.cc'; else $(CYGPATH_W) '$(srcdir)/model-chord.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-chord.Tpo $(DEPDIR)/libautomusic-model-chord.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-chord.cc' object='libautomusic-model-chord.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-chord.obj `if test -f 'model-chord.cc'; then $(CYGPATH_W) 'model-chord.cc'; else $(CYGPATH_W) '$(srcdir)/model-chord.cc'; fi`
-
-libautomusic-model-solo-instrumental.o: model-solo-instrumental.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-solo-instrumental.o -MD -MP -MF $(DEPDIR)/libautomusic-model-solo-instrumental.Tpo -c -o libautomusic-model-solo-instrumental.o `test -f 'model-solo-instrumental.cc' || echo '$(srcdir)/'`model-solo-instrumental.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-solo-instrumental.Tpo $(DEPDIR)/libautomusic-model-solo-instrumental.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-solo-instrumental.cc' object='libautomusic-model-solo-instrumental.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-solo-instrumental.o `test -f 'model-solo-instrumental.cc' || echo '$(srcdir)/'`model-solo-instrumental.cc
-
-libautomusic-model-solo-instrumental.obj: model-solo-instrumental.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-solo-instrumental.obj -MD -MP -MF $(DEPDIR)/libautomusic-model-solo-instrumental.Tpo -c -o libautomusic-model-solo-instrumental.obj `if test -f 'model-solo-instrumental.cc'; then $(CYGPATH_W) 'model-solo-instrumental.cc'; else $(CYGPATH_W) '$(srcdir)/model-solo-instrumental.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-solo-instrumental.Tpo $(DEPDIR)/libautomusic-model-solo-instrumental.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-solo-instrumental.cc' object='libautomusic-model-solo-instrumental.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-solo-instrumental.obj `if test -f 'model-solo-instrumental.cc'; then $(CYGPATH_W) 'model-solo-instrumental.cc'; else $(CYGPATH_W) '$(srcdir)/model-solo-instrumental.cc'; fi`
-
-libautomusic-model-solo-melody.o: model-solo-melody.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-solo-melody.o -MD -MP -MF $(DEPDIR)/libautomusic-model-solo-melody.Tpo -c -o libautomusic-model-solo-melody.o `test -f 'model-solo-melody.cc' || echo '$(srcdir)/'`model-solo-melody.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-solo-melody.Tpo $(DEPDIR)/libautomusic-model-solo-melody.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-solo-melody.cc' object='libautomusic-model-solo-melody.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-solo-melody.o `test -f 'model-solo-melody.cc' || echo '$(srcdir)/'`model-solo-melody.cc
-
-libautomusic-model-solo-melody.obj: model-solo-melody.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-solo-melody.obj -MD -MP -MF $(DEPDIR)/libautomusic-model-solo-melody.Tpo -c -o libautomusic-model-solo-melody.obj `if test -f 'model-solo-melody.cc'; then $(CYGPATH_W) 'model-solo-melody.cc'; else $(CYGPATH_W) '$(srcdir)/model-solo-melody.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-solo-melody.Tpo $(DEPDIR)/libautomusic-model-solo-melody.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-solo-melody.cc' object='libautomusic-model-solo-melody.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-solo-melody.obj `if test -f 'model-solo-melody.cc'; then $(CYGPATH_W) 'model-solo-melody.cc'; else $(CYGPATH_W) '$(srcdir)/model-solo-melody.cc'; fi`
-
-libautomusic-model-percussion.o: model-percussion.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-percussion.o -MD -MP -MF $(DEPDIR)/libautomusic-model-percussion.Tpo -c -o libautomusic-model-percussion.o `test -f 'model-percussion.cc' || echo '$(srcdir)/'`model-percussion.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-percussion.Tpo $(DEPDIR)/libautomusic-model-percussion.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-percussion.cc' object='libautomusic-model-percussion.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-percussion.o `test -f 'model-percussion.cc' || echo '$(srcdir)/'`model-percussion.cc
-
-libautomusic-model-percussion.obj: model-percussion.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-model-percussion.obj -MD -MP -MF $(DEPDIR)/libautomusic-model-percussion.Tpo -c -o libautomusic-model-percussion.obj `if test -f 'model-percussion.cc'; then $(CYGPATH_W) 'model-percussion.cc'; else $(CYGPATH_W) '$(srcdir)/model-percussion.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-model-percussion.Tpo $(DEPDIR)/libautomusic-model-percussion.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='model-percussion.cc' object='libautomusic-model-percussion.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-model-percussion.obj `if test -f 'model-percussion.cc'; then $(CYGPATH_W) 'model-percussion.cc'; else $(CYGPATH_W) '$(srcdir)/model-percussion.cc'; fi`
-
-libautomusic-output-base.o: output-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-base.o -MD -MP -MF $(DEPDIR)/libautomusic-output-base.Tpo -c -o libautomusic-output-base.o `test -f 'output-base.cc' || echo '$(srcdir)/'`output-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-base.Tpo $(DEPDIR)/libautomusic-output-base.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-base.cc' object='libautomusic-output-base.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-base.o `test -f 'output-base.cc' || echo '$(srcdir)/'`output-base.cc
-
-libautomusic-output-base.obj: output-base.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-base.obj -MD -MP -MF $(DEPDIR)/libautomusic-output-base.Tpo -c -o libautomusic-output-base.obj `if test -f 'output-base.cc'; then $(CYGPATH_W) 'output-base.cc'; else $(CYGPATH_W) '$(srcdir)/output-base.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-base.Tpo $(DEPDIR)/libautomusic-output-base.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-base.cc' object='libautomusic-output-base.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-base.obj `if test -f 'output-base.cc'; then $(CYGPATH_W) 'output-base.cc'; else $(CYGPATH_W) '$(srcdir)/output-base.cc'; fi`
-
-libautomusic-output-midi.o: output-midi.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-midi.o -MD -MP -MF $(DEPDIR)/libautomusic-output-midi.Tpo -c -o libautomusic-output-midi.o `test -f 'output-midi.cc' || echo '$(srcdir)/'`output-midi.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-midi.Tpo $(DEPDIR)/libautomusic-output-midi.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-midi.cc' object='libautomusic-output-midi.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-midi.o `test -f 'output-midi.cc' || echo '$(srcdir)/'`output-midi.cc
-
-libautomusic-output-midi.obj: output-midi.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-midi.obj -MD -MP -MF $(DEPDIR)/libautomusic-output-midi.Tpo -c -o libautomusic-output-midi.obj `if test -f 'output-midi.cc'; then $(CYGPATH_W) 'output-midi.cc'; else $(CYGPATH_W) '$(srcdir)/output-midi.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-midi.Tpo $(DEPDIR)/libautomusic-output-midi.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-midi.cc' object='libautomusic-output-midi.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-midi.obj `if test -f 'output-midi.cc'; then $(CYGPATH_W) 'output-midi.cc'; else $(CYGPATH_W) '$(srcdir)/output-midi.cc'; fi`
-
-libautomusic-output-pcm-audio.o: output-pcm-audio.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-pcm-audio.o -MD -MP -MF $(DEPDIR)/libautomusic-output-pcm-audio.Tpo -c -o libautomusic-output-pcm-audio.o `test -f 'output-pcm-audio.cc' || echo '$(srcdir)/'`output-pcm-audio.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-pcm-audio.Tpo $(DEPDIR)/libautomusic-output-pcm-audio.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-pcm-audio.cc' object='libautomusic-output-pcm-audio.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-pcm-audio.o `test -f 'output-pcm-audio.cc' || echo '$(srcdir)/'`output-pcm-audio.cc
-
-libautomusic-output-pcm-audio.obj: output-pcm-audio.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-output-pcm-audio.obj -MD -MP -MF $(DEPDIR)/libautomusic-output-pcm-audio.Tpo -c -o libautomusic-output-pcm-audio.obj `if test -f 'output-pcm-audio.cc'; then $(CYGPATH_W) 'output-pcm-audio.cc'; else $(CYGPATH_W) '$(srcdir)/output-pcm-audio.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-output-pcm-audio.Tpo $(DEPDIR)/libautomusic-output-pcm-audio.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output-pcm-audio.cc' object='libautomusic-output-pcm-audio.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-output-pcm-audio.obj `if test -f 'output-pcm-audio.cc'; then $(CYGPATH_W) 'output-pcm-audio.cc'; else $(CYGPATH_W) '$(srcdir)/output-pcm-audio.cc'; fi`
-
-libautomusic-composition-toplevel.o: composition-toplevel.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-composition-toplevel.o -MD -MP -MF $(DEPDIR)/libautomusic-composition-toplevel.Tpo -c -o libautomusic-composition-toplevel.o `test -f 'composition-toplevel.cc' || echo '$(srcdir)/'`composition-toplevel.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-composition-toplevel.Tpo $(DEPDIR)/libautomusic-composition-toplevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='composition-toplevel.cc' object='libautomusic-composition-toplevel.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-composition-toplevel.o `test -f 'composition-toplevel.cc' || echo '$(srcdir)/'`composition-toplevel.cc
-
-libautomusic-composition-toplevel.obj: composition-toplevel.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-composition-toplevel.obj -MD -MP -MF $(DEPDIR)/libautomusic-composition-toplevel.Tpo -c -o libautomusic-composition-toplevel.obj `if test -f 'composition-toplevel.cc'; then $(CYGPATH_W) 'composition-toplevel.cc'; else $(CYGPATH_W) '$(srcdir)/composition-toplevel.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-composition-toplevel.Tpo $(DEPDIR)/libautomusic-composition-toplevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='composition-toplevel.cc' object='libautomusic-composition-toplevel.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-composition-toplevel.obj `if test -f 'composition-toplevel.cc'; then $(CYGPATH_W) 'composition-toplevel.cc'; else $(CYGPATH_W) '$(srcdir)/composition-toplevel.cc'; fi`
-
-libautomusic-main.o: main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-main.o -MD -MP -MF $(DEPDIR)/libautomusic-main.Tpo -c -o libautomusic-main.o `test -f 'main.cc' || echo '$(srcdir)/'`main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-main.Tpo $(DEPDIR)/libautomusic-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cc' object='libautomusic-main.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-main.o `test -f 'main.cc' || echo '$(srcdir)/'`main.cc
-
-libautomusic-main.obj: main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libautomusic-main.obj -MD -MP -MF $(DEPDIR)/libautomusic-main.Tpo -c -o libautomusic-main.obj `if test -f 'main.cc'; then $(CYGPATH_W) 'main.cc'; else $(CYGPATH_W) '$(srcdir)/main.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libautomusic-main.Tpo $(DEPDIR)/libautomusic-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cc' object='libautomusic-main.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libautomusic_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libautomusic-main.obj `if test -f 'main.cc'; then $(CYGPATH_W) 'main.cc'; else $(CYGPATH_W) '$(srcdir)/main.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

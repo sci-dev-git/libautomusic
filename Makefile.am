@@ -21,7 +21,3 @@ libautomusic_SOURCES = \
   output-pcm-audio.cc \
   composition-toplevel.cc \
   main.cc
-
-libautomusic_CFLAGS =
-libautomusic_CPPFLAGS = $(yaml_cpp_CFLAGS) $(opencv_CFLAGS) -DENABLE_IMAGE_COMPOSITION
-libautomusic_LDFLAGS = $(yaml_cpp_LIBS) $(opencv_LIBS)
