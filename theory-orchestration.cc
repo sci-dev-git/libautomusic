@@ -311,9 +311,9 @@ int get_timbre_figures(const KnowledgeEntry **ppKnowledgeEntry,
 
 #define MAX_VELOCITY 127
 
-static const float randomVelocityFactor = 0.2;
+static const float randomVelocityFactor = 0.1;
 static const float randomVelocityThreshold = 0.3;
-static const float soloVelocityProportion = 1.2;
+static const float soloVelocityProportion = 1.3;
 
 /**
  * @brief Process the velocity of each notes for all the different instruments.
@@ -376,12 +376,15 @@ int processVelocity(std::vector<std::vector<CompositionChainNode *>> &compositio
   int avreageVelocity = 0, sumCount = 0;
   for(std::size_t trackNum=0; trackNum < compositionChainTrack.size(); trackNum++)
       {
-        for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
+        if (figureBanks[trackNum] == FIGURE_CLASS_CHORD)
           {
-            for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+            for(std::size_t form=0; form < compositionChainTrack[trackNum].size(); form++)
               {
-                avreageVelocity += compositionChainTrack[trackNum][form]->pitch[j].velocity;
-                ++sumCount;
+                for(std::size_t j=0; j < compositionChainTrack[trackNum][form]->pitch.size(); j++)
+                  {
+                    avreageVelocity += compositionChainTrack[trackNum][form]->pitch[j].velocity;
+                    ++sumCount;
+                  }
               }
           }
       }
