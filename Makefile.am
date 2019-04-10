@@ -2,9 +2,9 @@
 INCLUDES = -I$(top_builddir)/include      \
            -I$(top_srcdir)/include
 
-bin_PROGRAMS = libautomusic
+lib_LTLIBRARIES = libautomusic.la
 
-libautomusic_SOURCES = \
+libautomusic_la_SOURCES = \
   util-randomize.cc \
   knowledge-model.cc \
   theory-harmonics.cc \
@@ -20,4 +20,12 @@ libautomusic_SOURCES = \
   output-midi.cc \
   output-pcm-audio.cc \
   composition-toplevel.cc \
+  libautomusic.cc
+
+libautomusic_la_LDFLAGS = -no-undefined
+
+bin_PROGRAMS = libautomusic
+
+libautomusic_LDADD = libautomusic.la
+libautomusic_SOURCES = \
   main.cc
