@@ -101,8 +101,6 @@ int Output::outputCompositionChain(const std::string &filename,
         return rc;
 
       rc = outputInstance->outputFinal(stream);
-
-      delete outputInstance;
     }
   return rc;
 }

@@ -388,6 +388,8 @@ int processVelocity(std::vector<std::vector<CompositionChainNode *>> &compositio
               }
           }
       }
+  if (!sumCount)
+    return 0; /* We have finished as there is no such a chord track existing. */
   avreageVelocity /= sumCount;
   assert(avreageVelocity <= 127);
 
