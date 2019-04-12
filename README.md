@@ -3,22 +3,31 @@
 ------
 ![Build status](https://img.shields.io/badge/libautomusic-blue.svg) ![Build status](https://img.shields.io/badge/build-passing-orange.svg) ![Item status](https://img.shields.io/badge/status-unstable-lightgreen.svg)
 
-`libautomusic` allows you to create a unique music based on the given `picture` (all styles are acceptable), without any manual configurations or interventions.
+`libautomusic` allows us to create a unique music based on the given `picture` (all styles are acceptable), without any manual configurations or interventions.
 
-The composition algorithmic is based on music-theory model and knowledge-library-system, enabling us to create complicated and multi-track MIDI projects.
+The result of composition is not obscure or machine-like but just humanized to a certain extent, which thanks to the algorithmic based on music-theory model and knowledge-library-system, enabling us to create complicated and multi-track MIDI projects.
 
 The paper describing the algorithm in details is available on https://www.cnblogs.com/sci-dev/p/10261380.html.
 
-# Quick start
-
-In Windows you should prepare a MinGW or CygWin environment at first. In unix-like system these facilities are all natrual for you.
+# Guide to quick start
 
 Start a terminal:
 
     mkdir build && cd build
+
+Then configure the source tree, indicating install prefix and enabling options or features we wanted. For details of all the available options and features, try configure --help.
+
     ../configure
+
+Go ahead with compilation.
+
     make all
+
+Finally install the library and executables.
+
     make install
+
+In Windows you should prepare a MinGW or CygWin environment at first. In unix-like system these facilities are all natrual for you.
 
 If things go right you will get a program named 'libautomusic' in your prefix directory. The following command is to start our first composition process by merely giving a picture.
 
@@ -28,7 +37,13 @@ And you will get a MIDI file in the same path of the executable, which stores al
 
 For the futher polishing, you may want to import this file to other MIDI edition softwares.
 
-# Third-party libraries
+# Various output formats
+
+libautomusic supports various formats for storage of the music output. Besides traditional MIDI files, we have implemented other formats such as MusicXML, musical score in SVG and audio files(raw PCM or compressed MP3).
+
+Among these formats, audio output is implemented by a virtual instrument synthesizer that generates the sound of all the real instruments by software. Currently the synthesizer is based on soundfont, an ancient standard that is firstly applied in GM soundcards.
+
+# Dependencies
 
 libautomusic requires the following libraries to be installed (if all the corresponding features are enabled):
 
