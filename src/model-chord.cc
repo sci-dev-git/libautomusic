@@ -51,6 +51,9 @@ int ModelChord::generate(std::vector<PitchNote> &dst,
     }
 }
 
+/*
+ * @brief a special port for guitar figures.
+ */
 int ModelChord::transform_figure_guitar(std::vector<PitchNote> &dst, const std::vector<PitchNote> &src_figures)
 {
   dst.clear();

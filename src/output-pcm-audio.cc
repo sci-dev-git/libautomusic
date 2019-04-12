@@ -1,12 +1,11 @@
 
-#include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <climits>
 
 #define TSF_IMPLEMENTATION
-#include "synth/tsf.hpp"
+#include "synth/tsf.hh"
 
 #include "libautomusic.h"
 #include "output-pcm-audio.h"
@@ -27,7 +26,7 @@ OutputPcmAudio::~OutputPcmAudio()
   if (m_tsf) tsf_close(m_tsf);
 }
 
-int OutputPcmAudio::outputPrepare(std::ofstream &stream, float tempo)
+int OutputPcmAudio::outputPrepare(std::ofstream &stream, int beat_time, int beats, float tempo)
 {
   m_time_64p = tempo * 1000 / 60/ 32; /* duration of each 1/64 note in ms */
 
@@ -57,7 +56,7 @@ static bool events_cmp(const ChannelEvent &a, const ChannelEvent &b)
   return a.tick < b.tick;
 }
 
-int OutputPcmAudio::outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence, float tempo)
+int OutputPcmAudio::outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence)
 {
   std::vector<ChannelEvent> events;
   for(std::size_t trackNum=0; trackNum < sequence.size(); trackNum++)

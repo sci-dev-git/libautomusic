@@ -263,7 +263,8 @@ int MIDITrack::serialize(std::ofstream &stream, int channel, class OutputMIDI *o
 }
 
 OutputMIDI::OutputMIDI()
-    :   m_written(0),
+    :   m_mf_pnq(0),
+        m_written(0),
         m_laststate(0),
         m_lastmeta(0),
         m_currentTime(0)
@@ -291,7 +292,13 @@ int OutputMIDI::writeMIDI(std::ofstream &stream, int format, int division)
 
 #define MICROSECONDS_PER_MINUTE 60000000
 
-int OutputMIDI::outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence, float tempo)
+int OutputMIDI::outputPrepare(std::ofstream &stream, int beat_time, int beats, float tempo)
+{
+  m_mf_pnq = MICROSECONDS_PER_MINUTE / tempo;
+  return 0;
+}
+
+int OutputMIDI::outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence)
 {
   for(std::size_t trackNum=0; trackNum < sequence.size(); trackNum++)
     {
@@ -299,11 +306,9 @@ int OutputMIDI::outputTracks(std::ofstream &stream, const std::vector<OutputBase
 
       MIDITrack *midiTrack = appendTrack(new MIDITrack);
 
-      int mf_pnq = MICROSECONDS_PER_MINUTE / tempo;
-
       midiTrack->appendEvent(new MIDIMetaEvent(MIDIMetaEvent::MIDI_META_SEQNAME))->setData("Track");
       midiTrack->appendEvent(new MIDIProgramChangeEvent)->setProg(track.gm_timbre);
-      midiTrack->appendEvent(new MIDITempoEvent)->setTempo(mf_pnq);
+      midiTrack->appendEvent(new MIDITempoEvent)->setTempo(m_mf_pnq);
 
       for(std::size_t i=0; i < track.events.size(); i++)
         {

@@ -20,8 +20,8 @@
 #define CURRENT_VERSION_MINOR 0
 #define CURRENT_VERSION_REVISON 0
 
-#define MODEL_PATH "../models/"
 #define MODEL_COUNT 111
+#define BEAT_TYPE 4
 
 struct am_context_s
 {
@@ -36,7 +36,7 @@ LIBAM_EXPORT(libam_require_version)(int major, int minor, int revsion)
 }
 
 am_context_t *
-LIBAM_EXPORT(libam_create_context)(void)
+LIBAM_EXPORT(libam_create_context)(const char *modelPath)
 {
   am_context_t *context = new am_context_t;
   std::memset(context, 0, sizeof(*context));
@@ -50,7 +50,7 @@ LIBAM_EXPORT(libam_create_context)(void)
   for(unsigned int i=0; i<MODEL_COUNT; i++)
     {
       char model_bank_filename[1024];
-      std::snprintf(model_bank_filename, sizeof model_bank_filename, MODEL_PATH "/knowledge.bank.%d.mdel", i);
+      std::snprintf(model_bank_filename, sizeof model_bank_filename, "%s/knowledge.bank.%d.mdel", modelPath, i);
 
       if( context->composition->loadModel(model_bank_filename) )
         {
@@ -79,6 +79,8 @@ LIBAM_EXPORT(libam_output_file)(am_context_t *context, int filetype, const char 
   return context->output->outputCompositionChain(filename, filetype,
       context->composition->chains(),
       context->composition->generator()->timbreBanks(),
+      context->composition->generator()->figureBanks(), context->composition->generator()->figureClasses(),
+      BEAT_TYPE,
       context->composition->generator()->beats(), context->composition->tempo());
 }
 

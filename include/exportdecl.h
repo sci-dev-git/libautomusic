@@ -18,13 +18,15 @@
 #   define LIBAM_EXPORT(proto) LIBAM_CALL proto
 #  endif
 # endif
-#else
+#elif !defined(LIBAM_STATIC_LINK)
 /* Import library functions */
 # ifdef __GNUC__
 #  define LIBAM_EXPORT(proto) LIBAM_CALL __attribute__((dllimport)) proto
 # else
 #  define LIBAM_EXPORT(proto) LIBAM_CALL __declspec(dllimport) proto
 # endif
+#else
+# define LIBAM_EXPORT(proto) LIBAM_CALL proto
 #endif
 
 /** @def BEGIN_C_DECLS

@@ -213,8 +213,8 @@ public:
   
 public:
   virtual float tick_64p() const { return 7.5; }
-  virtual int outputPrepare(std::ofstream &stream, float) { return 0; }
-  virtual int outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence, float tempo);
+  virtual int outputPrepare(std::ofstream &stream, int, int, float tempo);
+  virtual int outputTracks(std::ofstream &stream, const std::vector<OutputBase::Track> &sequence);
   virtual int outputFinal(std::ofstream &stream);
 
 public:
@@ -251,6 +251,7 @@ protected:
   uint32_t getDeltaTime(uint32_t absTime);
 
 protected:
+  int m_mf_pnq;
   long m_written;
   int m_laststate;
   int m_lastmeta;

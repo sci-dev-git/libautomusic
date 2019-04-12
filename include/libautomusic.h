@@ -31,9 +31,10 @@ int LIBAM_EXPORT(libam_require_version)(int major, int minor, int revsion);
 
 /**
  * @brief Create a context handle stores all the data needed by libautomusic.
+ * @param modelPath Indicates the path of models.
  * @return a pointer to the context memory.
  */
-am_context_t *LIBAM_EXPORT(libam_create_context)(void);
+am_context_t *LIBAM_EXPORT(libam_create_context)(const char *modelPath);
 
 /**
  * @brief Start a process of composition by giving a image file.

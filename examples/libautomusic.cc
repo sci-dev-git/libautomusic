@@ -4,6 +4,8 @@
 
 #include "libautomusic.h"
 
+#define MODEL_PATH "../models/"
+
 int main(int argc, char *argv[])
 {
   if (libam_require_version(1,0,0))
@@ -13,7 +15,7 @@ int main(int argc, char *argv[])
     }
 
   std::cout << "libam_create_context()" << std::endl;
-  am_context_t *am_context = libam_create_context();
+  am_context_t *am_context = libam_create_context(MODEL_PATH);
   if (!am_context)
     {
       std::cerr << "Failed to initialize the libautomusic." << std::endl;
@@ -32,7 +34,7 @@ int main(int argc, char *argv[])
       return 1;
     }
   std::cout << "libam_output_file()" << std::endl;
-  if ( int err = libam_output_file(am_context, 1, "./comp.pcm") )
+  if ( int err = libam_output_file(am_context, 2, "./comp.xml") )
     {
       std::cerr << "Failed on libam_output_file(): err = " << err << "." << std::endl;
       return 1;

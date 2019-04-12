@@ -1,0 +1,5 @@
+index:
+  filename-pattern: 'knowledge.bank.%d.mdel'
+  index-start: 0
+#  index-end: 222
+  index-end: 111

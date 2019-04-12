@@ -8,7 +8,7 @@ AM_INIT_AUTOMAKE([foreign])
 LT_PREREQ([2.4.6])
 LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SRCDIR([main.cc])
+AC_CONFIG_SRCDIR([src/libautomusic.cc])
 AC_CONFIG_HEADERS([config.h])
 
 # Package Options
@@ -38,23 +38,41 @@ AC_PROG_INSTALL
 
 # yaml-cpp
 PKG_CHECK_MODULES(yaml_cpp, yaml-cpp >= 0.6.2)
-CPPFLAGS="$CPPFLAGS $yaml_cpp_CFLAGS"
-LDFLAGS="$LDFLAGS $yaml_cpp_LIBS"
+LIBAM_CPPFLAGS="$yaml_cpp_CFLAGS"
+LIBAM_LDFLAGS="$yaml_cpp_LIBS"
 
 # opencv
 if test "x$enable_image_composition" = "xyes"; then
     PKG_CHECK_MODULES(opencv, opencv >= 3.4.1)
-    CFLAGS="$CFLAGS $opencv_CFLAGS"
-    CPPFLAGS="$CPPFLAGS $opencv_CFLAGS"
-    LDFLAGS="$LDFLAGS $opencv_LIBS"
+    LIBAM_CPPFLAGS="$LIBAM_CPPFLAGS $opencv_CFLAGS"
+    LIBAM_LDFLAGS="$LIBAM_LDFLAGS $opencv_LIBS"
 fi
+
+AC_SUBST(LIBAM_CPPFLAGS)
+AC_SUBST(LIBAM_LDFLAGS)
 
 # Checks for header files.
 
+AC_CHECK_HEADER_STDBOOL
+
 # Checks for typedefs, structures, and compiler characteristics.
+
+AC_TYPE_INT32_T
+AC_TYPE_INT8_T
+AC_TYPE_SIZE_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT8_T
+AC_C_INLINE
 
 # Checks for library functions.
 
+AC_CHECK_FUNCS([floor])
+AC_CHECK_FUNCS([memset])
+AC_CHECK_FUNCS([sqrt])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+                src/Makefile
+                examples/Makefile
+])
 AC_OUTPUT

@@ -83,7 +83,7 @@ std::string chord_get_name(const ChordPair &chord)
 /**
  * @brief Get the standard name of a scale
  */
-std::string key_get_name(int key)
+const char *key_get_name(int key)
 {
   if( key >=0 && key < 12 )
     return key_string[key];
@@ -94,7 +94,7 @@ std::string key_get_name(int key)
 /**
  * @brief Get the standard name of a scale
  */
-std::string scale_get_name(int scale)
+const char *scale_get_name(int scale)
 {
   if( scale >= 0 && scale < 2 )
     return scale_string[scale];

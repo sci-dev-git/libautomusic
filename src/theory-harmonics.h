@@ -11,8 +11,8 @@ namespace autocomp
   {
 
 std::string chord_get_name(const ChordPair &chord);
-std::string key_get_name(int key);
-std::string scale_get_name(int scale);
+const char *key_get_name(int key);
+const char *scale_get_name(int scale);
 
 ChordPair chord_shift(const ChordPair &chord, int root_offset);
 int     chord_get_tone(int key, int chord_root, int scale = 0 );
