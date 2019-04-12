@@ -234,9 +234,6 @@ float CompositionToplevel::tempo() const
   return m_parameterGenerator->chordKnowledgeEntry()->tempo;
 }
 
-int CompositionToplevel::loadModel(const char *filename)
-{ return m_knowledgeModel->loadModel(filename); }
-
 void CompositionToplevel::generateCandidateList(std::vector<const KnowledgeEntry *> &dst,
                           const std::vector<const KnowledgeEntry *> &primary_candidate_list,
                           const std::vector<const KnowledgeEntry *> &secondary_candidate_list,

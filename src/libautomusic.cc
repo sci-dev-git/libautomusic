@@ -33,7 +33,6 @@
 #define CURRENT_VERSION_MINOR 0
 #define CURRENT_VERSION_REVISON 0
 
-#define MODEL_COUNT 111
 #define BEAT_TYPE 4
 
 struct am_context_s
@@ -58,20 +57,13 @@ LIBAM_EXPORT(libam_create_context)(const char *modelPath)
   context->output = new autocomp::Output;
   
   /*
-   * Load all the models in database with memory.
+   * Load all the models in database to memory.
    */
-  for(unsigned int i=0; i<MODEL_COUNT; i++)
+  if( context->composition->knowledgeModel()->loadModels(modelPath) )
     {
-      char model_bank_filename[1024];
-      std::snprintf(model_bank_filename, sizeof model_bank_filename, "%s/knowledge.bank.%d.mdel", modelPath, i);
-
-      if( context->composition->loadModel(model_bank_filename) )
-        {
-          libam_free_context(context);
-          return 0l;
-        }
+      libam_free_context(context);
+      return 0l;
     }
-  
   return context;
 }
 

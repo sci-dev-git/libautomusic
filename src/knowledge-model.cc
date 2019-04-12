@@ -14,7 +14,7 @@
  */
 #include <iostream>
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 
 #include <yaml-cpp/yaml.h>
 #include "libautomusic.h"
@@ -39,7 +39,40 @@ void KnowledgeModel::removeEntries()
   m_knowledgeEntries.clear();
 }
 
-int KnowledgeModel::loadModel(const char *filename)
+int KnowledgeModel::loadModels(const char *modelPath)
+{
+  char filename_buff[4096];
+  char filename_pattern[256];
+  try
+    {
+      std::snprintf(filename_buff, sizeof filename_buff, "%s/meta-data/index.meta", modelPath);
+
+      YAML::Node root = YAML::LoadFile(filename_buff);
+      YAML::Node index = root["index"];
+      std::string pattern = index["filename-pattern"].as<std::string>();
+      int index_start = index["index-start"].as<int>();
+      int index_end = index["index-end"].as<int>();
+
+      for(int i=index_start; i <= index_end; i++)
+        {
+          std::snprintf(filename_pattern, sizeof filename_pattern, "%%s/%s", pattern.c_str());
+          std::snprintf(filename_buff, sizeof filename_buff, filename_pattern, modelPath, i);
+
+          std::cout << "loadModels(): " << filename_buff << std::endl;
+
+          if (int rc = loadModelFile(filename_buff))
+            return rc;
+        }
+      return 0;
+    }
+  catch( YAML::Exception &excp )
+    {
+      std::cerr << "loadModels(): " << excp.what() << std::endl;
+      return -RC_OPENFILE;
+    }
+}
+
+int KnowledgeModel::loadModelFile(const char *filename)
 {
   using namespace std;
   int rc = 0;
@@ -154,7 +187,7 @@ int KnowledgeModel::loadModel(const char *filename)
     }
   catch( YAML::Exception &excp )
     {
-      std::cout << "loadModel(): " << excp.what() << std::endl;
+      std::cerr << "loadModelFile(): " << excp.what() << std::endl;
       rc = -RC_OPENFILE;
     }
   if(rc) { removeEntries(); }

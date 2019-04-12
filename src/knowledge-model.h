@@ -135,7 +135,8 @@ public:
   ~KnowledgeModel();
 
 public:
-  int loadModel(const char *filename);
+  int loadModels(const char *modelPath);
+  int loadModelFile(const char *filename);
   inline std::vector<const KnowledgeEntry *> &models()
     {
       return m_knowledgeEntries;

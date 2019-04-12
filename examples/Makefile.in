@@ -111,9 +111,6 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libautomusic_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(libautomusic_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -310,7 +307,6 @@ INCLUDES = -I$(top_builddir)/include      \
            -I$(top_srcdir)/include
 
 libautomusic_LDADD = $(top_builddir)/src/libautomusic.la
-libautomusic_LDFLAGS = -all-static
 libautomusic_SOURCES = libautomusic.cc
 all: all-am
 
@@ -397,7 +393,7 @@ clean-binPROGRAMS:
 
 libautomusic$(EXEEXT): $(libautomusic_OBJECTS) $(libautomusic_DEPENDENCIES) $(EXTRA_libautomusic_DEPENDENCIES) 
 	@rm -f libautomusic$(EXEEXT)
-	$(AM_V_CXXLD)$(libautomusic_LINK) $(libautomusic_OBJECTS) $(libautomusic_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(libautomusic_OBJECTS) $(libautomusic_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
